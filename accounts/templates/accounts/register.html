@@ -1,0 +1,20 @@
+{% extends "core/layout2.html" %}
+
+{% block title %}
+    ثبت نام
+{% endblock %}
+
+{% block main %}
+<div class="form-container">
+    <div class="form-card">
+        <h1 class="form-title">📝 ثبت نام</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-submit">✔️ ثبت نام</button>
+            <a href="{% url 'login' %}" class="btn-cancel">↩️ قبلاً ثبت نام کرده‌اید؟ وارد شوید</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

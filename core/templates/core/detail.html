@@ -1,0 +1,48 @@
+{% extends "core/layout.html" %}
+{% load static %}
+
+{% block title %}
+    {{ posts.title }} | جزئیات پست
+{% endblock title %}
+
+{% block main %}
+<div class="detail-container">
+    <div class="detail-card">
+        
+        <!-- بخش نمایش تصویر در بهترین کیفیت -->
+        {% if posts.image %}
+        <div class="detail-image-container">
+            <img class="detail-main-image" src="{{ posts.image.url }}" alt="{{ posts.title }}">
+        </div>
+        {% endif %}
+        
+        <div class="detail-header">
+            <h1 class="detail-title">{{ posts.title }}</h1>
+            <div class="detail-meta">
+                <span class="detail-author">✍️ {{ posts.user.username }}</span>
+                <span class="detail-date">📅 {{ posts.created_at|date:"Y/m/d H:i" }}</span>
+                <span class="detail-author">آخرین ویرایش 📅 {{ posts.update_at|date:"Y/m/d H:i" }}</span>
+            </div>
+        </div>
+        
+        <div class="detail-content">
+            {{ posts.content|linebreaks }}
+        </div>
+        
+        <div class="detail-actions">
+<a class="btn-edit" href="{% url 'edit_post' post_id=posts.id %}">
+    ✏️ ویرایش
+</a>
+            <form method="post" action="{% url 'delete' pk=posts.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-delet" onclick="return confirm('آیا از حذف این پست مطمئن هستید؟');">
+                    حذف ✗
+                </button>
+            </form>
+            <a class="btn-back" href="{% url 'posts' %}">
+                ↩️ بازگشت
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock main %}

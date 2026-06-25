@@ -1,0 +1,55 @@
+{% extends "core/layout.html" %}
+{% load static %}
+
+{% block title %}
+    لیست پست‌ها
+{% endblock title %}
+
+{% block main %}
+<div class="blog-index-container">
+    <h1 class="blog-index-title">📋 همه پست‌ها</h1>
+    
+    <div class="blog-index-grid">
+        {% for post in posts %}
+        <div class="blog-index-card">
+            {% if post.image %}
+                <div class="blog-index-thumbnail">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                </div>
+            {% else %}
+                <div class="blog-index-thumbnail blog-index-no-image">
+                    <span>📷 بدون تصویر</span>
+                </div>
+            {% endif %}
+            
+            <div class="blog-index-content">
+                <h3 class="blog-index-post-title">
+                    <a href="{% url 'detail' p_id=post.id %}" class="blog-index-post-link">
+                        {{ post.title }}
+                    </a>
+                </h3>
+                
+                <p class="blog-index-excerpt">
+                    {{ post.content|truncatewords:20|striptags }}
+                </p>
+                
+                <div class="blog-index-meta">
+                    <span class="blog-index-author">✍️ {{ post.user.username }}</span>
+                    <span class="blog-index-date">📅 {{ post.created_at|date:"Y/m/d" }}</span>
+                </div>
+                
+                <a href="{% url 'detail' p_id=post.id %}" class="blog-index-readmore">
+                    ادامه مطلب <span>←</span>
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="blog-index-empty">
+            <p>📭 هیچ پستی یافت نشد.</p>
+            <a href="{% url 'new_post' %}" class="blog-index-btn-create">اولین پست را بسازید</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock main %}

@@ -1,0 +1,61 @@
+{% extends "core/layout.html" %}
+{% load static %}
+
+{% block title %}
+    ویرایش پست | {{ post.title }}
+{% endblock %}
+
+{% block main %}
+<div class="form-container">
+    <div class="form-card">
+        <h1 class="form-title">✏️ ویرایش پست</h1>
+        
+        <form method="post" enctype="multipart/form-data" class="post-form">
+            {% csrf_token %}
+            
+            <!-- نمایش خطاهای عمومی فرم -->
+            {% if form.non_field_errors %}
+                <div class="errorlist">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- نمایش فیلدهای فرم -->
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-help">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="errorlist">
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <!-- نمایش تصویر فعلی (اگر وجود داشته باشد) -->
+            {% if post.image %}
+                <div class="current-image">
+                    <label>تصویر فعلی:</label>
+                    <div class="image-preview">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                        <small class="form-help">برای تغییر، تصویر جدید را انتخاب کنید</small>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">💾 ذخیره تغییرات</button>
+                <a href="{% url 'detail' p_id=post.id %}" class="btn-cancel">↩️ انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
