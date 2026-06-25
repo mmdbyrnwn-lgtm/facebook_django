@@ -23,6 +23,3 @@ class LoginForm(AuthenticationForm):
         widget=forms.TextInput(attrs={'class': 'form-control modern-input','placeholder': 'نام کاربری خود را وارد کنید','style': 'border-radius: 15px; padding: 12px; transition: all 0.3s;'}))
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control modern-input','placeholder': 'رمز عبور خود را وارد کنید','style': 'border-radius: 15px; padding: 12px; transition: all 0.3s;'}))
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.label_suffix = ''

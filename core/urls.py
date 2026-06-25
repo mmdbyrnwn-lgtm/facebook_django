@@ -1,12 +1,9 @@
 from django.urls import path
-from django.shortcuts import HttpResponse
-from core.views import sey,p_detail,new_post,register,not_user,delet_post,edit_post
+from core.views import sey,p_detail,new_post,not_user,delet_post,edit_post
 urlpatterns = [
     path('',sey,name='posts' ),
     path('detail/<int:p_id>/',p_detail,name='detail' ),
     path('new/post/',new_post,name='new_post' ),
-    path('register/',register, name='register'),
-    path('not_user/',not_user, name='not_user'),
     path('error/',not_user, name='error'),
     path('post/<int:pk>/delete/', delet_post, name='delete'),
     path('edit/<int:post_id>/',edit_post, name='edit_post'),
