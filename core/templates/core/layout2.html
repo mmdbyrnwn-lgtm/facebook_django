@@ -1458,6 +1458,15 @@ body.dark-mode .logo-text .name-last {
 form label {
     display: none;
 }
+/* حالت روز */
+.form-control::placeholder {
+    color: #333 !important;
+}
+
+/* حالت شب */
+body.dark-mode .form-control::placeholder {
+    color: #aaa !important;  /* روشن برای شب */
+}
 </style>
 <body>
     <header class="header">

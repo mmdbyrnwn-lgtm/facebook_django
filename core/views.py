@@ -5,7 +5,7 @@ from core.forms import newpostform
 
 
 def not_user(request):
-    return render(request,'core/notuser2.html')
+    return render(request,'core/notuser.html')
 def sey(request):
     if request.user.is_authenticated:
         posts = Post.objects.all().order_by('-created_at')
@@ -47,17 +47,15 @@ def new_post(request):
 
 
 def edit_post(request, post_id):
-    if request.user.is_authenticated:
-        post = get_object_or_404(Post, id=post_id)
-        if post.user != request.user:
-            messages.error(request, 'شما اجازه ویرایش این پست را ندارید!')
-            return redirect('posts')
-        post = get_object_or_404(Post, id=post_id)
-        if request.method == 'POST':
-            form = newpostform(request.POST, request.FILES, instance=post)
-            if form.is_valid():
-                form.save()
-                messages(request, 'پست با موفقیت ویرایش شد!')
-                return redirect('detail', p_id=post.id)
-        return render(request, 'core/edit_post.html', {'form': form, 'post': post})
-    return redirect('error') 
+    post = get_object_or_404(Post, id=post_id)
+    if post.user != request.user:
+        messages.error(request, 'شما اجازه ویرایش این پست را ندارید!')
+        return redirect('posts')
+    if request.method == 'POST':
+        form = newpostform(request.POST, request.FILES,instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'پست با موفقیت ویرایش شد! ✅')
+            return redirect('detail', p_id=post.id)
+    form = newpostform(instance=post)
+    return render(request, 'core/edit_post.html', {'form': form, 'post': post})

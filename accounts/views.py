@@ -9,7 +9,7 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save(commit=False)
+            user = form.save()
             user.password = make_password(request.POST.get('password'))
             user.save()
             login(request, user)
@@ -39,4 +39,4 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'با موفقیت خارج شدید! 👋')
-    return redirect('posts')
+    return redirect('login')

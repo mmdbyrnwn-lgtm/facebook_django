@@ -1458,6 +1458,15 @@ body.dark-mode .logo-text .name-last {
 form label {
     display: none;
 }
+/* حالت روز */
+.form-control::placeholder {
+    color: #333 !important;
+}
+
+/* حالت شب */
+body.dark-mode .form-control::placeholder {
+    color: #aaa !important;  /* روشن برای شب */
+}
 </style>
 <body>
     <header class="header">
@@ -1527,8 +1536,7 @@ form label {
 </main>
 
     <footer class="footer">
-        {% comment %} <p>© تمامی حقوق محفوظ است | طراحی شده توسط amircayto </p> {% endcomment %}
-        <h1>اگر می خواهید بنر را تولید کنید می توانید به شماره 541545454 تماس بگیرید </p>
+        <p>© تمامی حقوق محفوظ است | طراحی شده توسط amircayto </p>
     </footer>
 </body>
 <!-- دکمه تغییر حالت شب/روز -->
