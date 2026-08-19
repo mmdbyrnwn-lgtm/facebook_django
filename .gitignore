@@ -2,10 +2,9 @@
 __pycache__/
 *.py[codz]
 *$py.class
-
+مهم.txt
 # C extensions
 *.so
-tekno.py
 # Distribution / packaging
 .Python
 build/

@@ -1,5 +1,6 @@
 {% extends "core/layout.html" %}
 {% load static %}
+{% load core_extras %}
 
 {% block title %}
     لیست پست‌ها
@@ -24,7 +25,7 @@
             
             <div class="blog-index-content">
                 <h3 class="blog-index-post-title">
-                    <a href="{% url 'detail' p_id=post.id %}" class="blog-index-post-link">
+                    <a href="{% url 'core:detail' p_id=post.id %}" class="blog-index-post-link">
                         {{ post.title }}
                     </a>
                 </h3>
@@ -38,15 +39,23 @@
                     <span class="blog-index-date">📅 {{ post.created_at|date:"Y/m/d" }}</span>
                 </div>
                 
-                <a href="{% url 'detail' p_id=post.id %}" class="blog-index-readmore">
-                    ادامه مطلب <span>←</span>
-                </a>
+                <a href="{% url 'core:detail' p_id=post.id %}" class="blog-index-readmore">
+                    ادامه مطلب <span>←</span></a>
+<form action="{% url 'core:toggle_like' post.id %}" method="post" class="like-form">
+    {% csrf_token %}
+    {% if post|is_liked_by:request.user %}
+        <button type="submit" class="like-btn liked">❤️ لایک شده ({{ post.likes.count }})</button>
+    {% else %}
+        <button type="submit" class="like-btn">🤍 لایک ({{ post.likes.count }})</button>
+    {% endif %}
+</form>
             </div>
         </div>
+
         {% empty %}
         <div class="blog-index-empty">
             <p>📭 هیچ پستی یافت نشد.</p>
-            <a href="{% url 'new_post' %}" class="blog-index-btn-create">اولین پست را بسازید</a>
+            <a href="{% url 'core:new_post' %}" class="blog-index-btn-create">اولین پست را بسازید</a>
         </div>
         {% endfor %}
     </div>

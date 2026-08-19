@@ -1,4 +1,9 @@
 py manage.py makemigration
+& "c:\Users\Parto Afzar\Desktop\facebook\venv\Scripts\Activate.ps1"
+
+
+
+
 (venv) PS C:\Users\Parto Afzar\Desktop\facebook> py manage.py shell  14 objects imported automatically (use -v 2 for details).
 
 Ctrl click to launch VS Code Native REPL

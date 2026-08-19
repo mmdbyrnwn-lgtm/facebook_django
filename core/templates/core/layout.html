@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 {% load static %}
-<link rel="stylesheet" href="C:\Users\Parto Afzar\Desktop\facebook\core\static\core\css\style.css">
+{% load core_extras %}
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/golnar@v1.1.0/dist/golnar.css" rel="stylesheet">
 <head>
     <link rel="stylesheet" href="C:\Users\Parto Afzar\Desktop\facebook\core\static\core\css\style.css">
     </div>
@@ -17,18 +18,45 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <!-- اگر فایل CSS اضافی دارید -->
 </head>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('like-flash-overlay');
+
+    document.querySelectorAll('.like-form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const btn = form.querySelector('.like-btn');
+            btn.classList.add('like-pop-animate');
+
+            // فلش قرمز رو نشون بده
+            overlay.classList.add('flash-active');
+
+            // بعد از یه لحظه محوش کن
+            setTimeout(function () {
+                overlay.classList.remove('flash-active');
+            }, 200);
+
+            // بعد از دیده شدن کامل افکت، فرم رو submit کن
+            setTimeout(function () {
+                form.submit();
+            }, 350);
+        });
+    });
+});
+</script>
 <style>
-    /* core/static/core/css/style.css */
-.form-control {
-    width: 100%;
-    padding: 12px;
-    border-radius: 15px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
+body {
+    font-family: 'Golnar', 'Vazir', sans-serif;
 }
+/* ============================================
+   فایل CSS یکپارچه - پروژه جنگو
+   شامل: استایل‌های عمومی، هدر، کارت‌ها، فرم‌ها،
+   کامنت‌ها، دکمه‌ها، تم شب/روز و ریسپانسیو
+   ============================================ */
+
 /* ======================================== */
-/* فونت و تنظیمات پایه */
+/* 1. تنظیمات پایه و ریست */
 /* ======================================== */
 * {
     margin: 0;
@@ -50,7 +78,7 @@ body {
     flex-direction: column;
 }
 
-/* لایه شیشه‌ای ملایم روی کل صفحه برای افزایش خوانایی (اختیاری) */
+/* لایه شیشه‌ای روی کل صفحه (برای خوانایی بهتر) */
 body::before {
     content: '';
     position: fixed;
@@ -64,24 +92,37 @@ body::before {
     pointer-events: none;
 }
 
-/* تمام محتوا بالای لایه شیشه */
-.main-content, .header, .footer {
-    position: relative;
-    z-index: 2;
+/* لینک‌ها */
+a {
+    color: #FFD700;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover {
+    text-decoration: underline;
 }
 
 /* ======================================== */
-/* هدر شیشه‌ای با گرادینت آبی ملایم */
+/* 2. هدر و ناوبری */
 /* ======================================== */
 .header {
-    background: linear-gradient(120deg, rgba(135, 207, 235, 0), rgba(100, 150, 200, 0.2));
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.67);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 1rem 2rem;
     position: sticky;
-    top: 0;
+    top: 10px;
     z-index: 100;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 90%;
+    max-width: 1200px;
+    margin: 10px auto;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+.header:hover {
+    transform: scale(1.011);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 .nav-container {
@@ -96,63 +137,121 @@ body::before {
 
 .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
-
-.nav-links a {
+.nav-links li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     text-decoration: none;
     color: white;
     font-weight: 500;
-    transition: all 0.3s;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    padding: 8px 16px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
-
-.nav-links a:hover {
-    color: #FFD700;
+.nav-links li a:hover {
+    background: rgba(255, 255, 255, 0.35);
     transform: translateY(-2px);
+    color: #FFD700;
+    border-color: rgba(255, 215, 0, 0.5);
+}
+.nav-links li a span {
+    font-size: 1.1rem;
 }
 
 /* ======================================== */
-/* لوگوی شیشه‌ای */
+/* 3. لوگو */
 /* ======================================== */
-.logo {
+.logo-amircayto {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
-
-.logo-facebook {
-    width: 45px;
-    height: 45px;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    border-radius: 12px;
+.logo-amircayto:hover {
+    transform: scale(1.02);
+}
+.logo-icon {
+    position: relative;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #00d9ff9f, #001aff38);
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    overflow: hidden;
 }
-
-.logo-letter {
-    font-size: 28px;
-    font-weight: bold;
+.logo-icon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: rotate(45deg);
+    transition: 0.5s;
+}
+.logo-amircayto:hover .logo-icon::before {
+    left: 100%;
+}
+.logo-icon .icon-crown {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 18px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+.logo-icon .icon-letter {
+    font-size: 32px;
+    font-weight: 800;
     color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     font-family: 'Vazirmatn', sans-serif;
-    transform: translateY(2px);
+}
+.logo-amircayto:hover .logo-icon {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.64);
+    transform: rotate(-3deg);
 }
 
-.logo-facebook:hover {
-    background: rgba(255, 255, 255, 0.5);
-    transform: scale(1.05);
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+.logo-text .name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    letter-spacing: -0.5px;
+}
+.logo-text .name-last {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 /* ======================================== */
-/* کارت‌های شیشه‌ای با رنگ‌بندی متنوع */
+/* 4. کارت‌های شیشه‌ای */
 /* ======================================== */
-.card, .post-card, .detail-card, .form-card, .blog-index-card {
+.card,
+.post-card,
+.detail-card,
+.form-card,
+.blog-index-card {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     border-radius: 28px;
@@ -160,36 +259,31 @@ body::before {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
-
-/* کارت اصلی (card) با رنگ سفید شیشه‌ای */
 .card {
     background: rgba(255, 255, 255, 0.25);
 }
-
-/* کارت پست‌ها با کمی ته رنگ آبی */
-.post-card, .blog-index-card {
+.post-card,
+.blog-index-card {
     background: rgba(200, 220, 240, 0.2);
 }
-
-/* کارت فرم با ته رنگ سبز-آبی ملایم */
 .form-card {
     background: rgba(220, 240, 255, 0.2);
 }
-
-/* کارت جزئیات با ته رنگ کرم-آبی */
 .detail-card {
     background: rgba(245, 245, 250, 0.2);
 }
-
-/* هاور یکسان برای همه کارت‌ها */
-.card:hover, .post-card:hover, .detail-card:hover, .form-card:hover, .blog-index-card:hover {
+.card:hover,
+.post-card:hover,
+.detail-card:hover,
+.form-card:hover,
+.blog-index-card:hover {
     background: rgba(255, 255, 255, 0.35);
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
 /* ======================================== */
-/* محتوای اصلی */
+/* 5. محتوای اصلی */
 /* ======================================== */
 .main-content {
     flex: 1;
@@ -200,15 +294,16 @@ body::before {
 }
 
 /* ======================================== */
-/* صفحه لیست پست‌ها */
+/* 6. صفحه لیست پست‌ها */
 /* ======================================== */
-.posts-container, .blog-index-container {
+.posts-container,
+.blog-index-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
 }
-
-.page-title, .blog-index-title {
+.page-title,
+.blog-index-title {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 2rem;
@@ -217,35 +312,41 @@ body::before {
     padding-right: 1rem;
     text-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
-
-.posts-grid, .blog-index-grid {
+.posts-grid,
+.blog-index-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
 }
+.post-card,
+.blog-index-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
 
 /* تصویر بندانگشتی */
-.post-image-thumbnail, .blog-index-thumbnail {
+.post-image-thumbnail,
+.blog-index-thumbnail {
     width: 100%;
     height: 220px;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.2);
 }
-
-.post-image-thumbnail img, .blog-index-thumbnail img {
+.post-image-thumbnail img,
+.blog-index-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
 }
-
 .post-card:hover .post-image-thumbnail img,
 .blog-index-card:hover .blog-index-thumbnail img {
     transform: scale(1.05);
 }
-
-/* حالت بدون تصویر */
-.post-image-thumbnail.no-image, .blog-index-no-image {
+.post-image-thumbnail.no-image,
+.blog-index-no-image {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -255,38 +356,53 @@ body::before {
 }
 
 /* محتوای کارت */
-.post-card-content, .blog-index-content {
+.post-card-content,
+.blog-index-content {
     padding: 1.5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
 }
-
-.post-title, .blog-index-post-title {
+.post-title,
+.blog-index-post-title {
     margin: 0 0 0.8rem 0;
     font-size: 1.3rem;
     font-weight: 600;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
 }
-
-.post-link, .blog-index-post-link {
-    color: white;
+.post-link,
+.blog-index-post-link {
+    color: #1e2a3e;
     text-decoration: none;
     transition: color 0.2s;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    text-shadow: none;
 }
-
-.post-link:hover, .blog-index-post-link:hover {
-    color: #FFD700;
+.post-link:hover,
+.blog-index-post-link:hover {
+    color: #f39c12;
 }
-
-.post-excerpt, .blog-index-excerpt {
-    color: rgba(255, 255, 255, 0.9);
+.post-excerpt,
+.blog-index-excerpt {
+    color: #2c3e50;
     line-height: 1.6;
     margin-bottom: 1rem;
     font-size: 0.95rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
 }
-
-.post-meta-list, .blog-index-meta {
+.post-meta-list,
+.blog-index-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -294,15 +410,16 @@ body::before {
     padding-top: 0.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: #5a6e7c;
 }
 
 /* دکمه ادامه مطلب */
-.btn-read-more, .blog-index-readmore {
+.btn-read-more,
+.blog-index-readmore {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(52, 152, 219, 0.5);
     color: white;
     text-decoration: none;
     font-weight: 500;
@@ -312,23 +429,23 @@ body::before {
     align-self: flex-start;
     padding: 0.5rem 1rem;
     border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
 }
-
-.btn-read-more:hover, .blog-index-readmore:hover {
+.btn-read-more:hover,
+.blog-index-readmore:hover {
     gap: 0.8rem;
     background: rgba(255, 255, 255, 0.45);
-    color: #ff0000;
+    color: #FFD700;
 }
 
 /* ======================================== */
-/* صفحه جزئیات پست */
+/* 7. صفحه جزئیات پست */
 /* ======================================== */
 .detail-container {
     max-width: 900px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
-
 .detail-image-container {
     width: 100%;
     max-height: 500px;
@@ -339,7 +456,6 @@ body::before {
     overflow: hidden;
     border-radius: 28px 28px 0 0;
 }
-
 .detail-main-image {
     max-width: 100%;
     max-height: 500px;
@@ -348,46 +464,55 @@ body::before {
     object-fit: contain;
     transition: transform 0.3s ease;
 }
-
 .detail-main-image:hover {
     transform: scale(1.02);
 }
-
 .detail-header {
-    padding: 2rem 2rem 1rem 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 90%;
+    max-width: 1200px;
+    margin: 10px auto;
+    border-radius: 50px;
+    transition: all 0.3s ease;
 }
-
 .detail-title {
     font-size: 2rem;
     font-weight: 700;
-    color: white;
+    color: #1e2a3e;
     margin: 0 0 0.75rem 0;
     line-height: 1.3;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    text-shadow: none;
 }
-
 .detail-meta {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: #5a6e7c;
 }
-
-.detail-author, .detail-date {
-    background: rgba(0, 0, 0, 0.2);
+.detail-author,
+.detail-date {
+    background: rgba(0, 0, 0, 0.08);
     padding: 0.25rem 0.75rem;
     border-radius: 30px;
 }
-
 .detail-content {
     padding: 2rem;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.95);
+    color: #2c3e50;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
 }
-
 .detail-actions {
     padding: 1.5rem 2rem 2rem 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
@@ -397,44 +522,39 @@ body::before {
 }
 
 /* ======================================== */
-/* فرم‌ها */
+/* 8. فرم‌ها */
 /* ======================================== */
 .form-container {
     max-width: 800px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
-
 .form-title {
     font-size: 1.8rem;
     font-weight: 700;
-    color: white;
+    color: #1e2a3e;
     margin-bottom: 1.5rem;
     text-align: center;
     border-right: 4px solid #FFD700;
     padding-right: 1rem;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    text-shadow: none;
 }
-
 .post-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
-
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
-
 .form-group label {
     font-weight: 600;
-    color: white;
+    color: #1e2a3e;
     font-size: 0.95rem;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    text-shadow: none;
 }
-
 .form-control {
     padding: 12px 16px;
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -442,21 +562,18 @@ body::before {
     font-size: 1rem;
     font-family: inherit;
     transition: all 0.2s;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e2a3e;
 }
-
 .form-control:focus {
     outline: none;
     border-color: #FFD700;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 1);
     box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
 }
-
 .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: #7f8c8d;
 }
-
 .form-control-file {
     padding: 10px 0;
     border: 1px dashed rgba(255, 255, 255, 0.5);
@@ -466,13 +583,11 @@ body::before {
     color: white;
     cursor: pointer;
 }
-
 .form-help {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.7);
     margin-top: -0.2rem;
 }
-
 .form-actions {
     display: flex;
     gap: 1rem;
@@ -481,40 +596,36 @@ body::before {
     flex-wrap: wrap;
 }
 
-/* ======================================== */
-/* دکمه‌های شیشه‌ای با تنوع */
-/* ======================================== */
-.btn-submit {
-    background: linear-gradient(120deg, rgba(46, 204, 113, 0.6), rgba(39, 174, 96, 0.6));
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
-}
-
-.btn-edit {
-    background: linear-gradient(120deg, rgba(243, 156, 18, 0.6), rgba(230, 126, 34, 0.6));
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
-}
-
-.btn-delet {
-    background: linear-gradient(120deg, rgba(231, 76, 60, 0.6), rgba(192, 57, 43, 0.6));
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
-}
-
-.btn-back, .btn-cancel {
-    background: rgba(0, 0, 0, 0.4);
+/* استایل‌های لاگین */
+.login-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
+}
+.login-form .modern-input {
+    margin-bottom: 20px;
+}
+.login-form .btn-submit {
+    width: 100%;
+    margin-top: 10px;
+}
+/* مخفی کردن لیبل‌های پیش‌فرض در فرم لاگین */
+.login-form label {
+    display: none;
 }
 
-.btn-read-more {
-    background: rgba(52, 152, 219, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-/* دکمه‌های عمومی */
-.btn-submit, .btn-edit, .btn-delet, .btn-back, .btn-cancel, .btn-read-more, input[type="submit"] {
+/* ======================================== */
+/* 9. دکمه‌های شیشه‌ای */
+/* ======================================== */
+.btn-submit,
+.btn-edit,
+.btn-delet,
+.btn-back,
+.btn-cancel,
+.btn-read-more,
+input[type="submit"] {
     backdrop-filter: blur(4px);
     padding: 0.6rem 1.4rem;
     border-radius: 40px;
@@ -526,32 +637,288 @@ body::before {
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
-.btn-submit:hover, .btn-edit:hover, .btn-read-more:hover, input[type="submit"]:hover {
+.btn-submit {
+    background: linear-gradient(120deg, rgba(46, 204, 113, 0.6), rgba(39, 174, 96, 0.6));
+    color: white;
+}
+.btn-edit {
+    background: linear-gradient(120deg, rgba(243, 156, 18, 0.6), rgba(230, 126, 34, 0.6));
+    color: white;
+}
+.btn-delet {
+    background: linear-gradient(120deg, rgba(231, 76, 60, 0.6), rgba(192, 57, 43, 0.6));
+    color: white;
+}
+.btn-back,
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.8);
+    color: #1e2a3e;
+    border-color: rgba(0,0,0,0.1);
+}
+.btn-read-more {
+    background: rgba(52, 152, 219, 0.5);
+    color: white;
+}
+.btn-submit:hover,
+.btn-edit:hover,
+.btn-read-more:hover,
+input[type="submit"]:hover {
     transform: translateY(-2px);
     filter: brightness(1.1);
     color: #FFD700;
 }
-
 .btn-delet:hover {
     transform: translateY(-2px);
     filter: brightness(1.1);
 }
-
-.btn-back:hover, .btn-cancel:hover {
-    background: rgba(0, 0, 0, 0.6);
+.btn-back:hover,
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 1);
     transform: translateY(-2px);
-    color: #FFD700;
+    color: #f39c12;
 }
 
 /* ======================================== */
-/* فوتر */
+/* 10. کامنت‌ها (با اسکرول محدود) */
+/* ======================================== */
+.comments-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    padding: 28px 30px 32px 30px;
+    margin-top: 8px;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+.comments-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+.comment-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #8d959f;
+    border-radius: 14px;
+    font-size: 15px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    max-height: 200px;
+    transition: all 0.3s ease;
+    background: #e0e1e1;
+    color: #2d3748;
+    line-height: 1.6;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.comment-input:focus {
+    outline: none;
+    border-color: #4299e1;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    transform: scale(1.005);
+}
+.comment-input::placeholder {
+    color: #a0aec0;
+    font-size: 14px;
+    font-weight: 400;
+    transition: opacity 0.3s ease;
+}
+.comment-input:focus::placeholder {
+    opacity: 0.4;
+}
+.comment-input:not(:placeholder-shown) {
+    background: #ffffff;
+    border-color: #cbd5e0;
+}
+.btn-comment-submit {
+    padding: 10px 60px;
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.25);
+    align-self: flex-start;
+    margin-top: 4px;
+}
+.btn-comment-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.35);
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+}
+.btn-comment-submit:active {
+    transform: scale(0.96);
+}
+
+/* لیست کامنت‌ها با اسکرول */
+.comments-list-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+    min-height: 0;
+}
+.comments-list-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.comments-list-wrapper::-webkit-scrollbar-track {
+    background: #f0f2f5;
+    border-radius: 10px;
+}
+.comments-list-wrapper::-webkit-scrollbar-thumb {
+    background: #c1c9d6;
+    border-radius: 10px;
+}
+.comments-list-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.comment-item {
+    background: #f7fafc;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    border-right: 4px solid #4299e1;
+    transition: all 0.2s ease;
+}
+.comment-item:hover {
+    background: #edf2f7;
+    transform: translateX(-4px);
+}
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+.comment-author {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2b6cb0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.comment-author::before {
+    content: "👤";
+    font-size: 13px;
+}
+.comment-body {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #2d3748;
+    margin: 4px 0 0 0;
+    padding-right: 4px;
+    word-wrap: break-word;
+}
+.comment-empty {
+    text-align: center;
+    padding: 30px 20px;
+    color: #718096;
+    font-size: 15px;
+    background: #f7fafc;
+    border-radius: 14px;
+    border: 2px dashed #e2e8f0;
+}
+
+/* دکمه نمایش همه (اختیاری) */
+.btn-show-all {
+    display: none;
+    background: none;
+    border: none;
+    color: #4299e1;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 0;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+.btn-show-all:hover {
+    color: #2b6cb0;
+    text-decoration: underline;
+}
+.comments-list-wrapper.scrollable ~ .btn-show-all {
+    display: block;
+}
+
+/* کارت قابل گسترش */
+.comments-card-expandable {
+    max-height: none;
+}
+.comments-card-expandable .comments-list-wrapper {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+/* ======================================== */
+/* 11. دکمه لایک */
+/* ======================================== */
+.like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.like-btn:hover {
+    background-color: #f8f8f8;
+    border-color: #ccc;
+    transform: scale(1.03);
+}
+.like-btn.liked {
+    background-color: #ffe6ea;
+    border-color: #ff4d6d;
+    color: #ff4d6d;
+}
+.like-btn.liked:hover {
+    background-color: #ffd6de;
+}
+.like-pop-animate {
+    animation: like-pop 0.3s ease;
+}
+@keyframes like-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* ======================================== */
+/* 12. فوتر */
 /* ======================================== */
 .footer {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.8);
+    color: #1e2a3e;
     text-align: center;
     padding: 1.5rem;
     margin-top: 2rem;
@@ -560,14 +927,13 @@ body::before {
 }
 
 /* ======================================== */
-/* پیام‌های شیشه‌ای */
+/* 13. پیام‌های شیشه‌ای */
 /* ======================================== */
 .messages-container {
     max-width: 1200px;
     margin: 1rem auto;
     padding: 0 1rem;
 }
-
 .alert {
     padding: 1rem 1.2rem;
     border-radius: 16px;
@@ -578,36 +944,25 @@ body::before {
     animation: slideDown 0.3s ease;
     backdrop-filter: blur(10px);
 }
-
 @keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
 .alert-success {
     background: rgba(40, 167, 69, 0.75);
     color: white;
     border-right: 5px solid #28a745;
 }
-
 .alert-error {
     background: rgba(220, 53, 69, 0.75);
     color: white;
     border-right: 5px solid #dc3545;
 }
-
 .alert-warning {
     background: rgba(255, 193, 7, 0.75);
     color: #1e2a3e;
     border-right: 5px solid #ffc107;
 }
-
 .alert-info {
     background: rgba(23, 162, 184, 0.75);
     color: white;
@@ -615,79 +970,81 @@ body::before {
 }
 
 /* ======================================== */
-/* انیمیشن‌ها */
+/* 14. انیمیشن‌ها */
 /* ======================================== */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
-.card, .post-card, .detail-card {
+.card,
+.post-card,
+.detail-card {
     animation: fadeIn 0.5s ease-out;
 }
 
 /* ======================================== */
-/* واکنش‌گرایی */
+/* 15. اسکرول بار شیشه‌ای */
 /* ======================================== */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        text-align: center;
-    }
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
-    }
-    .card, .form-card {
-        padding: 1.5rem;
-    }
-    .header {
-        padding: 0.8rem 1rem;
-    }
-    .posts-grid, .blog-index-grid {
-        grid-template-columns: 1fr;
-    }
-    .page-title, .blog-index-title {
-        font-size: 1.5rem;
-    }
-    .detail-actions, .form-actions {
-        flex-direction: column;
-    }
-    .btn-submit, .btn-edit, .btn-delet, .btn-back, .btn-cancel {
-        justify-content: center;
-        width: 100%;
-    }
-    .detail-image-container {
-        max-height: 350px;
-    }
-    .detail-main-image {
-        max-height: 350px;
-    }
+::-webkit-scrollbar {
+    width: 8px;
 }
-
-@media (max-width: 576px) {
-    .post-meta-list, .blog-index-meta {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 217, 0, 0.23);
+    border-radius: 10px;
+    transition: 0.3s;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.9);
 }
 
 /* ======================================== */
-/* استایل‌های متفرقه */
+/* 16. نمایش تصویر فعلی در فرم ویرایش */
 /* ======================================== */
-.helptext, .errorlist {
+.current-image {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.current-image label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+.image-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+.image-preview img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ======================================== */
+/* 17. کلاس‌های کمکی */
+/* ======================================== */
+.helptext,
+.errorlist {
     font-size: 0.8rem;
     margin-top: 0.3rem;
 }
-
 .errorlist {
     color: #FFD700;
     list-style: none;
     padding: 0;
 }
-
-.empty-state, .blog-index-empty {
+.empty-state,
+.blog-index-empty {
     text-align: center;
     padding: 3rem;
     background: rgba(0, 0, 0, 0.3);
@@ -696,128 +1053,28 @@ body::before {
     color: white;
 }
 
-/* استایل برای لینک‌های موجود در متن */
-a {
-    color: #FFD700;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
 /* ======================================== */
-/* مدیریت محتوای بلند در کارت‌ها */
+/* 18. تم شب/روز (Dark Mode) */
 /* ======================================== */
 
-/* محدود کردن ارتفاع کارت پست */
-.post-card, .blog-index-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
-}
-
-/* محدود کردن متن Excerpt (خلاصه پست) */
-.post-excerpt, .blog-index-excerpt {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;  /* حداکثر 3 خط */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-}
-
-/* محدود کردن عنوان پست */
-.post-title, .blog-index-post-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;  /* حداکثر 2 خط */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-}
-
-/* جلوگیری از سرریز شدن محتوای کارت */
-.post-card-content, .blog-index-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-width: 0;  /* مهم برای جلوگیری از سرریز */
-}
-
-/* مدیریت متن‌های طولانی در قسمت‌های مختلف */
-.detail-content {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;
-}
-
-/* محدود کردن ارتفاع جدول یا لیست‌های داخل کارت */
-.post-card-content p,
-.blog-index-content p,
-.post-excerpt p {
-    max-height: 120px;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-
-/* اسکرول بار زیبا برای محتوای بلند (اختیاری) */
-.post-card-content::-webkit-scrollbar,
-.blog-index-content::-webkit-scrollbar,
-.detail-content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.post-card-content::-webkit-scrollbar-track,
-.blog-index-content::-webkit-scrollbar-track,
-.detail-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-.post-card-content::-webkit-scrollbar-thumb,
-.blog-index-content::-webkit-scrollbar-thumb,
-.detail-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 10px;
-}
-
-/* جلوگیری از سرریز در موبایل */
-@media (max-width: 768px) {
-    .post-excerpt, .blog-index-excerpt {
-        -webkit-line-clamp: 2;  /* در موبایل فقط 2 خط */
-    }
-    
-    .post-title, .blog-index-post-title {
-        -webkit-line-clamp: 1;  /* در موبایل فقط 1 خط */
-        font-size: 1.1rem;
-    }
-}
-/* ======================================== */
-/* دکمه تغییر تم (شب/روز) */
-/* ======================================== */
+/* دکمه تغییر تم */
 .theme-switch-wrapper {
     position: fixed;
     bottom: 25px;
     left: 25px;
     z-index: 1000;
 }
-
 .theme-switch {
     display: inline-block;
     position: relative;
     width: 70px;
     height: 34px;
 }
-
 .theme-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-
 .slider {
     position: absolute;
     cursor: pointer;
@@ -834,22 +1091,14 @@ a:hover {
     padding: 0 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
-
 .slider .moon,
 .slider .sun {
     font-size: 18px;
     z-index: 1;
     transition: 0.3s;
 }
-
-.slider .sun {
-    opacity: 1;
-}
-
-.slider .moon {
-    opacity: 0;
-}
-
+.slider .sun { opacity: 1; }
+.slider .moon { opacity: 0; }
 .slider:before {
     position: absolute;
     content: "";
@@ -862,115 +1111,30 @@ a:hover {
     transition: 0.3s;
     z-index: 0;
 }
-
 input:checked + .slider:before {
     transform: translateX(36px);
 }
+input:checked + .slider .moon { opacity: 1; }
+input:checked + .slider .sun { opacity: 0; }
 
-input:checked + .slider .moon {
-    opacity: 1;
-}
-
-input:checked + .slider .sun {
-    opacity: 0;
-}
-
-/* ======================================== */
-/* حالت شب (Dark Mode) */
-/* ======================================== */
+/* حالت شب - بدنه */
 body.dark-mode {
     background-image: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #f0f0f0;
 }
-
 body.dark-mode .header {
-    background: rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.31);
 }
-
 body.dark-mode .card,
 body.dark-mode .post-card,
 body.dark-mode .detail-card,
 body.dark-mode .form-card,
 body.dark-mode .blog-index-card {
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
-
-body.dark-mode .post-link,
-body.dark-mode .blog-index-post-link,
-body.dark-mode .detail-title,
-body.dark-mode .page-title,
-body.dark-mode .blog-index-title,
-body.dark-mode .form-title {
-    color: #f0f0f0;
-}
-
-body.dark-mode .post-excerpt,
-body.dark-mode .blog-index-excerpt,
-body.dark-mode .detail-content,
-body.dark-mode .post-meta-list,
-body.dark-mode .blog-index-meta {
-    color: #dddddd;
-}
-
-body.dark-mode .btn-back,
-body.dark-mode .btn-cancel {
-    background: rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #f0f0f0;
-}
-
-body.dark-mode .btn-back:hover,
-body.dark-mode .btn-cancel:hover {
-    background: rgba(0, 0, 0, 0.8);
-    color: #FFD700;
-}
-
-body.dark-mode .footer {
-    background: rgba(0, 0, 0, 0.6);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .form-control {
-    background: rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-body.dark-mode .form-control:focus {
-    border-color: #FFD700;
-    background: rgba(0, 0, 0, 0.6);
-}
-
-body.dark-mode .alert-success {
-    background: rgba(0, 0, 0, 0.7);
-    color: #2ecc71;
-}
-
-body.dark-mode .alert-error {
-    background: rgba(0, 0, 0, 0.7);
-    color: #e74c3c;
-}
-
-body.dark-mode .alert-warning {
-    background: rgba(0, 0, 0, 0.7);
-    color: #f39c12;
-}
-
-body.dark-mode .alert-info {
-    background: rgba(0, 0, 0, 0.7);
-    color: #3498db;
-}
-/* ======================================== */
-/* حالت شب - متن‌های سفید */
-/* ======================================== */
-body.dark-mode {
-    background-image: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    color: #f0f0f0;
-}
-
 body.dark-mode .post-link,
 body.dark-mode .blog-index-post-link,
 body.dark-mode .detail-title,
@@ -980,506 +1144,260 @@ body.dark-mode .form-title,
 body.dark-mode .form-group label {
     color: #f0f0f0;
 }
-
 body.dark-mode .post-excerpt,
 body.dark-mode .blog-index-excerpt,
 body.dark-mode .detail-content {
     color: #dddddd;
 }
-
-body.dark-mode .card,
-body.dark-mode .post-card,
-body.dark-mode .detail-card,
-body.dark-mode .form-card,
-body.dark-mode .blog-index-card {
+body.dark-mode .post-meta-list,
+body.dark-mode .blog-index-meta {
+    color: #bbbbbb;
+}
+body.dark-mode .btn-back,
+body.dark-mode .btn-cancel {
     background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #f0f0f0;
 }
-
-body.dark-mode .form-control {
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-}
-
-body.dark-mode .form-control::placeholder {
-    color: #b0b0b0;
-}
-/* ======================================== */
-/* حالت روز (پیش‌فرض) - متن‌های سیاه */
-/* ======================================== */
-
-/* متن‌های عمومی */
-body {
-    color: #1e2a3e;
-}
-
-.post-link, .blog-index-post-link {
-    color: #1e2a3e;
-    text-shadow: none;
-}
-
-.post-link:hover, .blog-index-post-link:hover {
-    color: #f39c12;
-}
-
-.post-excerpt, .blog-index-excerpt {
-    color: #2c3e50;
-}
-
-.post-meta-list, .blog-index-meta {
-    color: #5a6e7c;
-}
-
-.detail-title {
-    color: #1e2a3e;
-    text-shadow: none;
-}
-
-.detail-meta {
-    color: #5a6e7c;
-}
-
-.detail-content {
-    color: #2c3e50;
-}
-
-.form-title {
-    color: #1e2a3e;
-    text-shadow: none;
-}
-
-.form-group label {
-    color: #1e2a3e;
-    text-shadow: none;
-}
-
-.form-control {
-    color: #1e2a3e;
-    background: rgba(255, 255, 255, 0.9);
-}
-
-.form-control::placeholder {
-    color: #7f8c8d;
-}
-
-/* دکمه‌ها در حالت روز */
-.btn-back, .btn-cancel {
-    color: #1e2a3e;
-    background: rgba(255, 255, 255, 0.8);
-}
-
-.btn-back:hover, .btn-cancel:hover {
-    background: rgba(255, 255, 255, 1);
-    color: #f39c12;
-}
-
-/* فوتر در حالت روز */
-.footer {
-    color: #1e2a3e;
-    background: rgba(255, 255, 255, 0.8);
-}
-/* نمایش تصویر فعلی در فرم ویرایش */
-.current-image {
-    margin: 1rem 0;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.current-image label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.image-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-}
-
-.image-preview img {
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-/* نمایش تصویر فعلی در فرم ویرایش */
-.current-image {
-    margin: 1rem 0;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.current-image label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.image-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-}
-
-.image-preview img {
-    max-width: 200px;
-    max-height: 150px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-/* ======================================== */
-/* اسکرول بار شیشه‌ای - چند سبک */
-/* ======================================== */
-
-/* سبک 1: طلایی شیشه‌ای (پیشنهادی) */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0);
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 217, 0, 0.23);
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 215, 0, 0.9);
-}
-
-/* سبک 2: آبی شیشه‌ای */
-.blue-scroll::-webkit-scrollbar-thumb {
-    background: rgba(52, 152, 219, 0.6);
-}
-
-.blue-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(52, 152, 219, 0.9);
-}
-
-/* سبک 3: بنفش شیشه‌ای */
-.purple-scroll::-webkit-scrollbar-thumb {
-    background: rgba(155, 89, 182, 0.6);
-}
-
-.purple-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(155, 89, 182, 0.9);
-}
-/* حالت شب - اسکرول بار */
-body.dark-mode::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode::-webkit-scrollbar-thumb {
-    background: rgba(255, 215, 0, 0.5);
-}
-
-body.dark-mode::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 215, 0, 0.8);
-}
-/* منوی ناوبری بهبود یافته */
-.nav-links {
-    display: flex;
-    gap: 1.5rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 40px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.nav-links li a:hover {
-    background: rgba(255, 255, 255, 0.35);
-    transform: translateY(-2px);
+body.dark-mode .btn-back:hover,
+body.dark-mode .btn-cancel:hover {
+    background: rgba(0, 0, 0, 0.8);
     color: #FFD700;
-    border-color: rgba(255, 215, 0, 0.5);
 }
-
-.nav-links li a span {
-    font-size: 1.1rem;
+body.dark-mode .footer {
+    background: rgba(0, 0, 0, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f0f0f0;
 }
-
-/* برای موبایل */
-@media (max-width: 768px) {
-    .nav-links {
-        gap: 0.8rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .nav-links li a {
-        padding: 6px 12px;
-        font-size: 0.85rem;
-    }
-    
-    .nav-links li a span {
-        font-size: 0.9rem;
-    }
-}
-/* ======================================== */
-/* لوگوی جدید amircayto - استایل حرفه‌ای */
-/* ======================================== */
-
-.logo-amircayto {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.logo-icon {
-    position: relative;
-    width: 55px;
-    height: 55px;
-    background: linear-gradient(135deg, #eecf219f, #FF8C00);
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-.logo-icon::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-    transform: rotate(45deg);
-    transition: 0.5s;
-}
-
-.logo-amircayto:hover .logo-icon::before {
-    left: 100%;
-}
-
-.logo-icon .icon-crown {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    font-size: 18px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
-.logo-icon .icon-letter {
-    font-size: 32px;
-    font-weight: 800;
+body.dark-mode .form-control {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
     color: white;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    font-family: 'Vazirmatn', sans-serif;
 }
-
-.logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
+body.dark-mode .form-control::placeholder {
+    color: #aaa;
 }
-
-.logo-text .name {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: white;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    letter-spacing: -0.5px;
+body.dark-mode .form-control:focus {
+    border-color: #FFD700;
+    background: rgba(0, 0, 0, 0.6);
 }
-
-.logo-text .name-last {
-    font-size: 1rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+body.dark-mode .alert-success {
+    background: rgba(0, 0, 0, 0.7);
+    color: #2ecc71;
 }
-
-.logo-amircayto:hover {
-    transform: scale(1.02);
+body.dark-mode .alert-error {
+    background: rgba(0, 0, 0, 0.7);
+    color: #e74c3c;
 }
-
-.logo-amircayto:hover .logo-icon {
-    box-shadow: 0 12px 25px rgba(255, 215, 0, 0.4);
-    transform: rotate(-3deg);
+body.dark-mode .alert-warning {
+    background: rgba(0, 0, 0, 0.7);
+    color: #f39c12;
 }
-
-/* حالت شب برای لوگو */
+body.dark-mode .alert-info {
+    background: rgba(0, 0, 0, 0.7);
+    color: #3498db;
+}
 body.dark-mode .logo-icon {
     background: linear-gradient(135deg, #FFB800, #FF6B00);
 }
-
 body.dark-mode .logo-text .name,
 body.dark-mode .logo-text .name-last {
     color: #f0f0f0;
 }
+body.dark-mode .detail-meta {
+    color: #bbbbbb;
+}
+body.dark-mode .detail-author,
+body.dark-mode .detail-date {
+    background: rgba(255, 255, 255, 0.1);
+}
+body.dark-mode::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.5);
+}
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.8);
+}
 
-/* برای موبایل */
+/* ======================================== */
+/* 19. واکنش‌گرایی (Responsive) */
+/* ======================================== */
+
+@media (max-width: 1024px) {
+    .posts-grid,
+    .blog-index-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
+    .header {
+        padding: 0.8rem 1rem;
+        border-radius: 30px;
+    }
+    .nav-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+    .nav-links li a {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    .nav-links li a span {
+        font-size: 0.9rem;
+    }
     .logo-icon {
         width: 45px;
         height: 45px;
         border-radius: 14px;
     }
-    
     .logo-icon .icon-letter {
         font-size: 26px;
     }
-    
     .logo-icon .icon-crown {
         font-size: 14px;
         top: -3px;
         right: -3px;
     }
-    
     .logo-text .name {
         font-size: 1rem;
     }
-    
     .logo-text .name-last {
         font-size: 0.8rem;
     }
-}
-/* استایل مدرن برای ویجت‌ها */
-.modern-input {
-    width: 100%;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    color: white;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    .card,
+    .form-card {
+        padding: 1.5rem;
+    }
+    .posts-grid,
+    .blog-index-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .page-title,
+    .blog-index-title {
+        font-size: 1.5rem;
+    }
+    .detail-actions,
+    .form-actions {
+        flex-direction: column;
+    }
+    .btn-submit,
+    .btn-edit,
+    .btn-delet,
+    .btn-back,
+    .btn-cancel {
+        justify-content: center;
+        width: 100%;
+    }
+    .detail-image-container {
+        max-height: 350px;
+    }
+    .detail-main-image {
+        max-height: 350px;
+    }
+    .detail-title {
+        font-size: 1.6rem;
+    }
+
+    /* کامنت‌ها در موبایل */
+    .comments-card {
+        padding: 20px 16px 24px 16px;
+        border-radius: 16px;
+        max-height: 500px;
+    }
+    .comments-title {
+        font-size: 19px;
+    }
+    .comment-input {
+        min-height: 60px;
+        font-size: 14px;
+        padding: 12px 14px;
+    }
+    .btn-comment-submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+    .comment-item {
+        padding: 12px 14px;
+    }
+    .comments-list-wrapper::-webkit-scrollbar {
+        width: 4px;
+    }
+    .post-excerpt,
+    .blog-index-excerpt {
+        -webkit-line-clamp: 2;
+    }
+    .post-title,
+    .blog-index-post-title {
+        -webkit-line-clamp: 1;
+        font-size: 1.1rem;
+    }
 }
 
-.modern-input:focus {
-    outline: none;
-    border-color: #FFD700;
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+@media (max-width: 576px) {
+    .post-meta-list,
+    .blog-index-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .detail-header {
+        padding: 0.8rem 1rem;
+        border-radius: 20px;
+        width: 95%;
+    }
+    .detail-content {
+        padding: 1.2rem;
+        font-size: 0.95rem;
+    }
+    .detail-actions {
+        padding: 1rem;
+    }
+    .comments-card {
+        max-height: 400px;
+        padding: 16px 12px 20px 12px;
+    }
+    .theme-switch-wrapper {
+        bottom: 15px;
+        left: 15px;
+    }
+    .theme-switch {
+        width: 60px;
+        height: 30px;
+    }
+    .slider:before {
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+    }
+    input:checked + .slider:before {
+        transform: translateX(30px);
+    }
 }
-
-.modern-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.modern-file {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.modern-file:hover {
-    border-color: #FFD700;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: white;
-    font-size: 0.95rem;
-}
-/* استایل اختصاصی فرم لاگین */
-.login-form .modern-input {
-    margin-bottom: 20px;
-}
-
-.login-form .btn-submit {
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* افکت شیشه‌ای برای فرم لاگین */
-.login-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    border-radius: 28px;
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-/* استایل اختصاصی فرم لاگین */
-.login-form .modern-input {
-    margin-bottom: 20px;
-}
-
-.login-form .btn-submit {
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* افکت شیشه‌ای برای فرم لاگین */
-.login-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    border-radius: 28px;
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-/* استایل برای فرم لاگین */
-.modern-input {
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.modern-input:focus {
-    outline: none;
-    border-color: #FFD700 !important;
-    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2) !important;
-}
-
-/* حذف استایل پیش‌فرض لیبل‌ها */
-.login-form label {
-    display: none;
-}
-
-/* یا اگر می‌خوای لیبل نمایش داده نشه */
-form label {
-    display: none;
-}
-/* حالت روز */
-.form-control::placeholder {
-    color: #333 !important;
-}
-
-/* حالت شب */
-body.dark-mode .form-control::placeholder {
-    color: #aaa !important;  /* روشن برای شب */
 }
 </style>
 <body>
+        <div id="like-flash-overlay"></div>
     <header class="header">
     <div class="nav-container">
         <!-- لوگو -->
         <a href="" class="logo-amircayto">
     <div class="logo-icon">
         <span class="icon-crown"></span>
-        <span class="icon-letter">fr</span>
+        <span class="icon-letter">f</span>
     </div>
     <div class="logo-text">
-        <span class="name">fox</span>
-         <span class="name-last">ruby</span> 
+        <span class="name">facebook</span>
+         <span class="name-last">django</span> 
     </div>
 </a>
         
@@ -1507,6 +1425,7 @@ body.dark-mode .form-control::placeholder {
         </ul>
     </div>
     
+
     <!-- پیام‌ها (باید بیرون از ناوبری باشه) -->
     {% if messages %}
     <div class="messages-container">

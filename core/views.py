@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from core.models import Post
+from core.models import Post,Comment 
 from django.contrib import messages
 from core.forms import newpostform
 
@@ -8,15 +8,30 @@ def not_user(request):
     return render(request,'core/notuser.html')
 def sey(request):
     if request.user.is_authenticated:
-        posts = Post.objects.all().order_by('-created_at')
-        return render(request, 'core/index.html', {'posts': posts})
+        posts = Post.objects.all()
+        return render(request, 'core/index.html', {'posts': posts,})
     return redirect('error') 
-def p_detail(request,p_id):
+def p_detail(request, p_id):
     if request.user.is_authenticated:
-        post=Post.objects.filter(id=p_id).first()        
-        return render(request, 'core/detail.html',context={'posts':post})
-    return redirect('error')
+        post = Post.objects.filter(id=p_id).first()
 
+        if request.method == 'POST':
+            body = request.POST.get('body', '').strip()
+            if body:
+                Comment.objects.create(
+                    user=request.user,
+                    post=post,
+                    body=body
+                )
+            return redirect('core:detail', p_id=post.id)
+
+        comments = Comment.objects.filter(post=post).order_by('-id')
+
+        return render(request, 'core/detail.html', context={
+            'posts': post,
+            'comments': comments,
+        })
+    return redirect('core:error')
 def delet_post(request, pk):
     if request.user.is_authenticated:
         post = Post.objects.get(id=pk)
@@ -59,3 +74,28 @@ def edit_post(request, post_id):
             return redirect('detail', p_id=post.id)
     form = newpostform(instance=post)
     return render(request, 'core/edit_post.html', {'form': form, 'post': post})
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .models import Post, Like
+
+@login_required
+def toggle_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
+
+    if not created:
+        like.delete()
+        liked = False
+    else:
+        liked = True
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({
+            'liked': liked,
+            'likes_count': post.likes.count()
+        })
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))

@@ -6,6 +6,32 @@
 {% endblock title %}
 
 {% block main %}
+    <div class="comments-card">
+        <h3 class="comments-title">💬 کامنت‌ها ({{ comments.count }})</h3>
+
+        <form method="post" action="{% url 'core:detail' p_id=posts.id %}" class="comment-form">
+            {% csrf_token %}
+            <textarea name="body" class="comment-input" placeholder="نظرت رو بنویس..." required></textarea>
+            <button type="submit" class="btn-comment-submit">ارسال</button>
+        </form>
+
+        <div class="comments-list-wrapper">
+            <ul class="comments-list">
+                {% for comment in comments %}
+                    <li class="comment-item">
+                        <div class="comment-header">
+                            <strong class="comment-author">{{ comment.user.username }}</strong>
+                        </div>
+                        <p class="comment-body">{{ comment.body }}</p>
+                    </li>
+                {% empty %}
+                    <li class="comment-empty">هنوز کامنتی ثبت نشده. اولین نفر باشید! 🙌</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
 <div class="detail-container">
     <div class="detail-card">
         {% if posts.image %}
@@ -28,19 +54,20 @@
         </div>
         
         <div class="detail-actions">
-<a class="btn-edit" href="{% url 'edit_post' post_id=posts.id %}">
-    ✏️ ویرایش
-</a>
-            <form method="post" action="{% url 'delete' pk=posts.id %}" style="display: inline;">
+            <a class="btn-edit" href="{% url 'core:edit_post' post_id=posts.id %}">
+                ✏️ ویرایش
+            </a>
+            <form method="post" action="{% url 'core:delete' pk=posts.id %}" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn-delet" onclick="return confirm('آیا از حذف این پست مطمئن هستید؟');">
                     حذف ✗
                 </button>
             </form>
-            <a class="btn-back" href="{% url 'posts' %}">
+            <a class="btn-back" href="{% url 'core:posts' %}">
                 ↩️ بازگشت
             </a>
         </div>
     </div>
-</div>
+
+    <!-- بخش کامنت‌ها (انتقال به اینجا) -->
 {% endblock main %}

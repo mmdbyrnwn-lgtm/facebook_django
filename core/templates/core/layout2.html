@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 {% load static %}
+{% load core_extras %}
 <link rel="stylesheet" href="C:\Users\Parto Afzar\Desktop\facebook\core\static\core\css\style.css">
 <head>
     <link rel="stylesheet" href="C:\Users\Parto Afzar\Desktop\facebook\core\static\core\css\style.css">
@@ -74,14 +75,22 @@ body::before {
 /* هدر شیشه‌ای با گرادینت آبی ملایم */
 /* ======================================== */
 .header {
-    background: linear-gradient(120deg, rgba(135, 207, 235, 0), rgba(100, 150, 200, 0.2));
+    background: rgba(255, 255, 255, 0.15); /* شیشه‌ای */
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.67);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 1rem 2rem;
     position: sticky;
-    top: 0;
+    top: 10px;         /* فاصله از بالای صفحه */
     z-index: 100;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* تغییرات جدید */
+    width: 90%;          /* پهنای هدر */
+    max-width: 1200px;   /* حداکثر پهنا */
+    margin: 10px auto;   /* وسط‌چین و فاصله از لبه‌ها */
+    border-radius: 50px; /* گوشه‌های خیلی گرد (حالت کپسولی) */
+    /* برای دایره کامل، از border-radius: 9999px; استفاده کن */
+    transition: all 0.3s ease;
 }
 
 .nav-container {
@@ -1455,9 +1464,7 @@ body.dark-mode .logo-text .name-last {
 }
 
 /* یا اگر می‌خوای لیبل نمایش داده نشه */
-form label {
-    display: none;
-}
+
 /* حالت روز */
 .form-control::placeholder {
     color: #333 !important;
@@ -1466,6 +1473,10 @@ form label {
 /* حالت شب */
 body.dark-mode .form-control::placeholder {
     color: #aaa !important;  /* روشن برای شب */
+}
+.header:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 </style>
 <body>
