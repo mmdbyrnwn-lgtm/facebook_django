@@ -6,31 +6,6 @@
 {% endblock title %}
 
 {% block main %}
-    <div class="comments-card">
-        <h3 class="comments-title">💬 کامنت‌ها ({{ comments.count }})</h3>
-
-        <form method="post" action="{% url 'core:detail' p_id=posts.id %}" class="comment-form">
-            {% csrf_token %}
-            <textarea name="body" class="comment-input" placeholder="نظرت رو بنویس..." required></textarea>
-            <button type="submit" class="btn-comment-submit">ارسال</button>
-        </form>
-
-        <div class="comments-list-wrapper">
-            <ul class="comments-list">
-                {% for comment in comments %}
-                    <li class="comment-item">
-                        <div class="comment-header">
-                            <strong class="comment-author">{{ comment.user.username }}</strong>
-                        </div>
-                        <p class="comment-body">{{ comment.body }}</p>
-                    </li>
-                {% empty %}
-                    <li class="comment-empty">هنوز کامنتی ثبت نشده. اولین نفر باشید! 🙌</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-</div>
 
 <div class="detail-container">
     <div class="detail-card">
@@ -70,4 +45,30 @@
     </div>
 
     <!-- بخش کامنت‌ها (انتقال به اینجا) -->
+        <div class="comments-card">
+        <h3 class="comments-title">💬 کامنت‌ها ({{ comments.count }})</h3>
+
+        <form method="post" action="{% url 'core:detail' p_id=posts.id %}" class="comment-form">
+            {% csrf_token %}
+            <textarea name="body" class="comment-input" placeholder="نظرت رو بنویس..." required></textarea>
+            <button type="submit" class="btn-comment-submit">ارسال</button>
+        </form>
+
+        <div class="comments-list-wrapper">
+            <ul class="comments-list">
+                {% for comment in comments %}
+                    <li class="comment-item">
+                        <div class="comment-header">
+                            <strong class="comment-author">{{ comment.user.username }}</strong>
+                        </div>
+                        <p class="comment-body">{{ comment.body }}</p>
+                    </li>
+                {% empty %}
+                    <li class="comment-empty">هنوز کامنتی ثبت نشده. اولین نفر باشید! 🙌</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
 {% endblock main %}

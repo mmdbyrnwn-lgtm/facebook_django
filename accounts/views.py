@@ -40,6 +40,7 @@ def login_view(request):
             messages.error(request, 'نام کاربری یا رمز عبور اشتباه است!')
         else:
             messages.error(request, 'لطفاً اطلاعات را صحیح وارد کنید.')
+            messages.error(request, 'نام کاربری یا رمز عبور اشتباه است!')
     else:
         form = LoginForm()
     

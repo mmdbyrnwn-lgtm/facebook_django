@@ -10,7 +10,7 @@ def sey(request):
     if request.user.is_authenticated:
         posts = Post.objects.all()
         return render(request, 'core/index.html', {'posts': posts,})
-    return redirect('error') 
+    return redirect('core:error')
 def p_detail(request, p_id):
     if request.user.is_authenticated:
         post = Post.objects.filter(id=p_id).first()
@@ -37,10 +37,10 @@ def delet_post(request, pk):
         post = Post.objects.get(id=pk)
         if post.user != request.user:
             messages.error(request, 'شما اجازه حذف این پست را ندارید!')
-            return redirect('posts')
+            return redirect('core:posts')
         post.delete()
         messages.success(request,f'پست {post.title} با موفقیت حذف شد')
-        return redirect('posts')
+        return redirect('core:posts')
     else:
         return redirect('detail', p_id=pk)
     
@@ -58,20 +58,20 @@ def new_post(request):
                 messages.success(request,"پست شما با موفقیت ساخته شد")
                 return redirect('/posts')
         return render(request,'core/new_post.html',context={'myform':myform})
-    return redirect('error') 
+    return redirect('core:error') 
 
 
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if post.user != request.user:
         messages.error(request, 'شما اجازه ویرایش این پست را ندارید!')
-        return redirect('posts')
+        return redirect('core:posts')
     if request.method == 'POST':
         form = newpostform(request.POST, request.FILES,instance=post)
         if form.is_valid():
             form.save()
             messages.success(request, 'پست با موفقیت ویرایش شد! ✅')
-            return redirect('detail', p_id=post.id)
+            return redirect('core:detail', p_id=post.id)
     form = newpostform(instance=post)
     return render(request, 'core/edit_post.html', {'form': form, 'post': post})
 
@@ -99,3 +99,5 @@ def toggle_like(request, post_id):
         })
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+def custom_404(request, exception):
+    return render(request, 'core/404.html', status=404)

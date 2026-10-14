@@ -13,7 +13,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn-submit">🚪 ورود</button>
-            <a href="{% url 'register' %}" class="btn-cancel">📝 ثبت نام نکرده‌اید؟ عضو شوید</a>
+            <a href="{% url 'accounts:register' %}" class="btn-cancel">📝 ثبت نام نکرده‌اید؟ عضو شوید</a>
         </form>
     </div>
 </div>
