@@ -8,7 +8,7 @@ def not_user(request):
     return render(request,'core/notuser.html')
 def sey(request):
     if request.user.is_authenticated:
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-created_at')
         return render(request, 'core/index.html', {'posts': posts,})
     return redirect('core:error')
 def p_detail(request, p_id):
@@ -42,7 +42,7 @@ def delet_post(request, pk):
         messages.success(request,f'پست {post.title} با موفقیت حذف شد')
         return redirect('core:posts')
     else:
-        return redirect('detail', p_id=pk)
+        return redirect('core:detail', p_id=pk)
     
 def new_post(request):
     if request.user.is_authenticated:
@@ -56,7 +56,7 @@ def new_post(request):
                 new_post=Post(title=title,content=content,user=request.user,image=image)
                 new_post.save()
                 messages.success(request,"پست شما با موفقیت ساخته شد")
-                return redirect('/posts')
+                return redirect('core:posts')
         return render(request,'core/new_post.html',context={'myform':myform})
     return redirect('core:error') 
 

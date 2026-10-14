@@ -1,4 +1,4 @@
-{% extends "core/layout.html" %}
+﻿{% extends "core/layout.html" %}
 {% load static %}
 
 {% block title %}
@@ -10,7 +10,7 @@
     <div class="form-card">
         <h1 class="form-title">✨ ایجاد پست جدید</h1>
         
-        <form action="{% url 'new_post' %}" method="post" enctype="multipart/form-data" class="post-form">
+        <form action="{% url 'core:new_post' %}" method="post" enctype="multipart/form-data" class="post-form">
             {% csrf_token %}
             
             <!-- نمایش خطاهای غیر فیلدی -->
@@ -44,7 +44,7 @@
                 <button type="submit" class="btn-submit">
                     <span>✔️</span> ایجاد پست جدید
                 </button>
-                <a href="{% url 'posts' %}" class="btn-cancel">
+                <a href="{% url 'core:posts' %}" class="btn-cancel">
                     <span>↩️</span> انصراف
                 </a>
             </div>
